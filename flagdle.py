@@ -7,7 +7,6 @@
 
 import os, sys
 import random
-from typing import final
 import pygame
 from pygame.locals import *
 
@@ -228,4 +227,5 @@ while True:
     # clock.tick(60) means that for every second at most 
     # 60 frames should be passed. 
     clock.tick(60)
-    
+
+
