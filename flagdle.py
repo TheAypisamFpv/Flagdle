@@ -254,7 +254,7 @@ def flagdle():
                     # print(flag)
                     final_text = ''.join(user_text)
                     
-                    if final_text.lower() in flag.lower():
+                    if final_text.lower() == flag.lower():
                         SCORE += 1
                         lives = 0
                         flags.remove(flag)
