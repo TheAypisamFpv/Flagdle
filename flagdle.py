@@ -205,7 +205,6 @@ def flagdle():
                 if iso_button.collidepoint(event.pos):                
                     pygame.display.set_caption("Flagdle iso mode")
                     FLAGS_PATH = "flags/iso"
-                    FLAGS_PATH = "country"
                     iso_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
                     
                 if french_button.collidepoint(event.pos):
