@@ -30,7 +30,7 @@ screen.fill(BLACK)
 
 global FLAGS_PATH, COUNTRY_PATH
 # flags
-FLAGS_PATH = "flags"
+FLAGS_PATH = "country"
 COUNTRY_PATH = "country"
 
 # lives
@@ -205,6 +205,7 @@ def flagdle():
                 if iso_button.collidepoint(event.pos):                
                     pygame.display.set_caption("Flagdle iso mode")
                     FLAGS_PATH = "flags/iso"
+                    FLAGS_PATH = "country"
                     iso_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
                     
                 if french_button.collidepoint(event.pos):
@@ -249,8 +250,8 @@ def flagdle():
                 
                 # if the user press enter, check if the answer is right
                 if event.key == pygame.K_RETURN:
-                    # if len(user_text) == 0:
-                    #     continue
+                    if len(user_text) == 0:
+                        continue
                     # print(flag)
                     final_text = ''.join(user_text)
                     
@@ -354,7 +355,7 @@ def flagdle():
             if guess:
                 guezz_text = base_font.render("Good guezz !", True, (100, 255, 100))
             else:
-                guezz_text = base_font.render(f"Wrong guezz ,it was {prev_flag}", True, (255, 100, 100))
+                guezz_text = base_font.render(f"Wrong guezz, it was {prev_flag}", True, (255, 100, 100))
             # rectangle width and height adjjust for text size
             guezz_rect = pygame.Rect(GUESS_POS[0], GUESS_POS[1], guezz_text.get_width()+border_radius, guezz_text.get_height()+border_radius)
             pygame.draw.rect(screen, (50,50,50), guezz_rect, border_radius=border_radius)
