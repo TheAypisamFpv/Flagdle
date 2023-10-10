@@ -23,7 +23,7 @@ pygame.display.set_caption("Flagdle")
 
 # colors
 WHITE = (200, 200, 200)
-BLACK = (50, 50, 50)
+BLACK = (25, 25, 25)
 
 # set background color to black
 screen.fill(BLACK)
@@ -38,14 +38,19 @@ lives = 0
 # score
 SCORE = 0
 
+LIVES_POS = (0, 0)
+SCORE_POS = (0, 50)
+GUESS_POS = (0, 100)
+TEXT_WIDTH = 100
+border_radius = 15
 # basic font for user typed 
 base_font = pygame.font.Font(None, 32)
 big_font = pygame.font.Font(None, 128)
 user_text = []
 
 # create rectangle 
-WIDTH = 100
-HEIGHT = 75
+WIDTH = 200
+HEIGHT = 100
 input_rect = pygame.Rect(SCREEN_WIDTH/2 - WIDTH/2, SCREEN_HEIGHT - HEIGHT, WIDTH, HEIGHT) 
 
   
@@ -79,16 +84,21 @@ def random_flag(flags):
 # 2) iso names
 # menu has 2 button centered in height
 
-iso_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - 50, 200, 50)
-french_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 + 50, 200, 50)
+button_vertical_sepraration = 100
+
+iso_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
+french_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 + button_vertical_sepraration/2, 200, 50)
 flags = []
 # display menu
 while len(flags) == 0:
     screen.fill(BLACK)
-    pygame.draw.rect(screen, (100,100,100), iso_button)
-    pygame.draw.rect(screen, (100,100,100), french_button)
-    screen.blit(base_font.render("ISO names", True, (255, 255, 255), (0, 0, 0)), (SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - 50))
-    screen.blit(base_font.render("French names", True, (255, 255, 255), (0, 0, 0)), (SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 + 50))
+    pygame.draw.rect(screen, (100,100,100), iso_button, border_radius=border_radius)
+    pygame.draw.rect(screen, (100,100,100), french_button, border_radius=border_radius)
+    french_button_text = base_font.render("French names", True, (255, 255, 255))
+    iso_button_text = base_font.render("Iso names", True, (255, 255, 255))
+    # align each text to the center of each buttons (use button position and size)
+    screen.blit(french_button_text, (french_button.x + french_button.width/2 - french_button_text.get_width()/2, french_button.y + french_button.height/2 - french_button_text.get_height()/2))
+    screen.blit(iso_button_text, (iso_button.x + iso_button.width/2 - iso_button_text.get_width()/2, iso_button.y + iso_button.height/2 - iso_button_text.get_height()/2))
     pygame.display.flip()
     for event in pygame.event.get(): 
         if event.type == pygame.QUIT: 
@@ -187,38 +197,63 @@ while True:
     flag_width = flag_img.get_width()
     flag_height = flag_img.get_height()
     screen.blit(flag_img, (SCREEN_WIDTH/2 - flag_width/2, SCREEN_HEIGHT/2 - flag_height/2))
+
+
+
     if lives == -1:
-        lives_text = base_font.render("Lives: " + str(LIVES), True, (255, 100, 100), (0, 0, 0))
+        lives_text = base_font.render("Lives: " + str(LIVES), True, (255, 100, 100))
     else:
-        lives_text = base_font.render("Lives: " + str(LIVES), True, (255, 255, 255), (0, 0, 0))
+        lives_text = base_font.render("Lives: " + str(LIVES), True, (255, 255, 255))
+    # rectangle width and height adjjust for text size
+    lives_rect = pygame.Rect(LIVES_POS[0], LIVES_POS[1], lives_text.get_width()+border_radius, lives_text.get_height()+border_radius)
+    pygame.draw.rect(screen, (50,50,50), lives_rect, border_radius=border_radius)
+    # text centered in the rectangle
+    screen.blit(lives_text, (lives_rect.x + lives_rect.width/2 - lives_text.get_width()/2, lives_rect.y + lives_rect.height/2 - lives_text.get_height()/2))
+    
+
+    
+    
+
     
     if SCORE <= 0:   
-        score_text = base_font.render("Score: " + str(SCORE), True, (255, 100, 100), (0, 0, 0))
+        score_text = base_font.render("Score: " + str(SCORE), True, (255, 100, 100))
     else:
-        score_text = base_font.render("Score: " + str(SCORE), True, (100, 255, 100), (0, 0, 0))
-        
-    screen.blit(lives_text, (0, 0))
-    screen.blit(score_text, (0, 50))
+        score_text = base_font.render("Score: " + str(SCORE), True, (100, 255, 100))
+    # rectangle width and height adjjust for text size
+    score_rect = pygame.Rect(SCORE_POS[0], SCORE_POS[1], score_text.get_width()+border_radius, score_text.get_height()+border_radius)
+    pygame.draw.rect(screen, (50,50,50), score_rect, border_radius=border_radius)
+    # text centered in the rectangle
+    screen.blit(score_text, (score_rect.x + score_rect.width/2 - score_text.get_width()/2, score_rect.y + score_rect.height/2 - score_text.get_height()/2))
+    
 
     if type(guess) == bool:
         if guess:
-            screen.blit(base_font.render("Good guezz !", True, (100, 255, 100), (0, 0, 0)), (0, 100))
+            guezz_text = base_font.render("Good guezz !", True, (100, 255, 100))
         else:
-            screen.blit(base_font.render(f"Wrong guezz ,it was {prev_flag}", True, (255, 100, 100), (0, 0, 0)), (0, 100))
+            guezz_text = base_font.render(f"Wrong guezz ,it was {prev_flag}", True, (255, 100, 100))
+        # rectangle width and height adjjust for text size
+        guezz_rect = pygame.Rect(GUESS_POS[0], GUESS_POS[1], guezz_text.get_width()+border_radius, guezz_text.get_height()+border_radius)
+        pygame.draw.rect(screen, (50,50,50), guezz_rect, border_radius=border_radius)
+        # text centered in the rectangle
+        screen.blit(guezz_text, (guezz_rect.x + guezz_rect.width/2 - guezz_text.get_width()/2, guezz_rect.y + guezz_rect.height/2 - guezz_text.get_height()/2))
+    
 
 
     # draw rectangle and argument passed which should 
     # be on screen 
-    pygame.draw.rect(screen, (100,100,100), input_rect) 
+    pygame.draw.rect(screen, (100,100,100), input_rect, border_radius=border_radius*2) 
   
     text_surface = big_font.render(final_text, True, (255, 255, 255)) 
+
+    # move rectangle to the center if the width is increased
+    input_rect.x = SCREEN_WIDTH/2 - input_rect.width/2
       
-    # render at position stated in arguments 
-    screen.blit(text_surface, (input_rect.x, input_rect.y)) 
+    # render in the center of input_rect
+    screen.blit(text_surface, (input_rect.x + input_rect.width/2 - text_surface.get_width()/2, input_rect.y + input_rect.height/2 - text_surface.get_height()/2))
       
     # set width of textfield so that text cannot get 
     # outside of user's text input 
-    input_rect.w = max(100, text_surface.get_width()+10) 
+    input_rect.w = max(WIDTH, text_surface.get_width()+border_radius) 
       
     # display.flip() will update only a portion of the 
     # screen to updated, not full area 
