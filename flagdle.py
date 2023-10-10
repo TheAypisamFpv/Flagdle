@@ -53,6 +53,10 @@ WIDTH = 200
 HEIGHT = 100
 input_rect = pygame.Rect(SCREEN_WIDTH/2 - WIDTH/2, SCREEN_HEIGHT - HEIGHT, WIDTH, HEIGHT) 
 
+unactiv_color = (100, 100, 100)
+activ_color = (200, 200, 200)
+iso_color = unactiv_color
+french_color = unactiv_color
   
 active = False
 
@@ -86,21 +90,34 @@ def random_flag(flags):
 
 button_vertical_sepraration = 100
 
+screen.fill(BLACK)
 iso_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
+
 french_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 + button_vertical_sepraration/2, 200, 50)
+
 flags = []
 # display menu
 while len(flags) == 0:
-    screen.fill(BLACK)
-    pygame.draw.rect(screen, (100,100,100), iso_button, border_radius=border_radius)
-    pygame.draw.rect(screen, (100,100,100), french_button, border_radius=border_radius)
     french_button_text = base_font.render("French names", True, (255, 255, 255))
     iso_button_text = base_font.render("Iso names", True, (255, 255, 255))
     # align each text to the center of each buttons (use button position and size)
+    screen.fill(BLACK)
+    pygame.draw.rect(screen, french_color, french_button, border_radius=border_radius)
+    pygame.draw.rect(screen, iso_color, iso_button, border_radius=border_radius)
     screen.blit(french_button_text, (french_button.x + french_button.width/2 - french_button_text.get_width()/2, french_button.y + french_button.height/2 - french_button_text.get_height()/2))
     screen.blit(iso_button_text, (iso_button.x + iso_button.width/2 - iso_button_text.get_width()/2, iso_button.y + iso_button.height/2 - iso_button_text.get_height()/2))
     pygame.display.flip()
     for event in pygame.event.get(): 
+        if iso_button.collidepoint(pygame.mouse.get_pos()):
+            iso_color = activ_color
+        else:
+            iso_color = unactiv_color
+        
+        if french_button.collidepoint(pygame.mouse.get_pos()):
+            french_color = activ_color
+        else:
+            french_color = unactiv_color
+        
         if event.type == pygame.QUIT: 
             pygame.quit() 
             sys.exit()
@@ -109,7 +126,14 @@ while len(flags) == 0:
                 pygame.quit() 
                 sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
+            # make the button smaller when clicked
             if iso_button.collidepoint(event.pos):
+                iso_button = pygame.Rect(SCREEN_WIDTH/2 - 175/2, SCREEN_HEIGHT/2 - button_vertical_sepraration/2+2.5, 175, 45)
+            if french_button.collidepoint(event.pos):
+                french_button = pygame.Rect(SCREEN_WIDTH/2 - 175/2, SCREEN_HEIGHT/2 + button_vertical_sepraration/2+2.5, 175, 45)
+            
+        if event.type == pygame.MOUSEBUTTONUP:
+            if iso_button.collidepoint(event.pos):                
                 pygame.display.set_caption("Flagdle iso mode")
                 FLAGS_PATH = "flags/iso"
                 
@@ -119,7 +143,7 @@ while len(flags) == 0:
 
             flags = load_flags()
                 
-    
+        pygame.display.flip()
 
 
 flag = random_flag(flags)
@@ -155,7 +179,8 @@ while True:
             
             # if the user press enter, check if the answer is right
             if event.key == pygame.K_RETURN:
-                
+                if len(user_text) == 0:
+                    continue
                 # print(flag)
                 final_text = ''.join(user_text)
                 
@@ -172,6 +197,17 @@ while True:
                 
                 user_text = []
                 prev_flag = flag
+                if len(flags) == 0:
+                    screen.fill(BLACK)
+                    screen.blit(big_font.render(f"You Win !", True, (100, 255, 100), (0, 0, 0)), (SCREEN_WIDTH/2-375, SCREEN_HEIGHT/2 - 100))
+                    pygame.display.flip()
+                    pygame.time.wait(1000)
+                    # restart the game
+                    LIVES = 5
+                    SCORE = 0
+                    flags = load_flags()
+                    guess = None
+                    
                 flag = random_flag(flags)
                 active = False
 
@@ -186,8 +222,11 @@ while True:
         screen.blit(big_font.render("Game over !", True, (255, 100, 100), (0, 0, 0)), (SCREEN_WIDTH/2 - 300, SCREEN_HEIGHT/2 - 100))
         pygame.display.flip()
         pygame.time.wait(1000)
-        pygame.quit()
-        sys.exit()
+        # restart the game
+        LIVES = 5
+        SCORE = 0
+        flags = load_flags()
+        guess = None
 
     
     final_text = ''.join(user_text)
@@ -196,7 +235,13 @@ while True:
     
     flag_width = flag_img.get_width()
     flag_height = flag_img.get_height()
-    screen.blit(flag_img, (SCREEN_WIDTH/2 - flag_width/2, SCREEN_HEIGHT/2 - flag_height/2))
+    # rezise the flag to fit in the screen, without changing the aspect ratio
+    if flag_width > SCREEN_WIDTH:
+        flag_img = pygame.transform.scale(flag_img, (SCREEN_WIDTH, int(flag_height*SCREEN_WIDTH/flag_width)))
+    if flag_height > SCREEN_HEIGHT:
+        flag_img = pygame.transform.scale(flag_img, (int(flag_width*SCREEN_HEIGHT/flag_height), SCREEN_HEIGHT))
+
+    screen.blit(flag_img, (SCREEN_WIDTH/2 - flag_img.get_width()/2, SCREEN_HEIGHT/2 - flag_img.get_height()/2))
 
 
 
