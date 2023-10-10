@@ -76,7 +76,7 @@ def random_flag(flags):
     return flag
 
 def return_to_laucher():
-    launcher_path = 'game_loader.py'
+    launcher_path = 'GameLauncher.py'
     pygame.quit()
     os.system(f'python {launcher_path}')
     sys.exit()
