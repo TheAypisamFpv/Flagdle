@@ -290,7 +290,7 @@ def flagdle():
 
         # draw rectangle and argument passed which should 
         # be on screen 
-        pygame.draw.rect(screen, (100,100,100), input_rect, border_radius=border_radius*2) 
+        pygame.draw.rect(screen, (30, 30, 30), input_rect, border_radius=border_radius*2) 
 
         text_surface = big_font.render(final_text, True, (255, 255, 255)) 
 

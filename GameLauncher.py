@@ -14,8 +14,10 @@ base_font = pygame.font.Font(None, 32)
 big_font = pygame.font.Font(None, 64)
 
 # colors
-WHITE = (200, 200, 200)
-DARK_GREY = (25, 25, 25)
+WHITE = (255, 255, 255)
+LIGHT_GREY = (200, 200, 200)
+GREY = (100, 100, 100)
+DARK_GREY = (30, 30, 30)
 BLACK = (0, 0, 0)
 
 # set background color to black
@@ -24,10 +26,10 @@ screen.fill(DARK_GREY)
 GAME_PATH = "games"
 
 
-inactiv_color = (100, 100, 100)
-activ_color = (200, 200, 200)
+inactiv_color = GREY
+activ_color = LIGHT_GREY
 button_sepraration = 100
-border_radius = 15
+border_radius = 20
 
 GAMES = {}
 
@@ -103,7 +105,7 @@ def menu():
                     
         for game in GAMES:
             pygame.draw.rect(screen, game_buttons_color[game], game_buttons[game], border_radius=border_radius)                 
-            text_surface = base_font.render(game, True, BLACK)
+            text_surface = base_font.render(game, True, WHITE)
             text_rect = text_surface.get_rect()
             text_rect.center = game_buttons[game].center
             screen.blit(text_surface, text_rect)
