@@ -108,8 +108,25 @@ def return_to_laucher():
 def countrydle():
     global COUNTRY_PATH, LIVES, SCORE, lives, guess, active, user_text, input_rect, WIDTH, HEIGHT, unactiv_color, activ_color, button_vertical_sepraration, border_radius, base_font, big_font, SCREEN_WIDTH, SCREEN_HEIGHT, screen, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, clock, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT, screen, COUNTRY_PATH, LIVES, lives, SCORE, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, border_radius, base_font, big_font, user_text, WIDTH, HEIGHT, input_rect, unactiv_color, activ_color, active, guess
     countrys = []
-    iso_color = unactiv_color
-    iso_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
+    
+    europe_color = unactiv_color
+    europe_button_pos = (SCREEN_WIDTH/4 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
+    europe_button = pygame.Rect(europe_button_pos)
+    
+    amerique_color = unactiv_color
+    amerique_button_pos = (SCREEN_WIDTH/4 - 100, SCREEN_HEIGHT/2 + button_vertical_sepraration/2, 200, 50)
+    amerique_button = pygame.Rect(amerique_button_pos)
+    
+    asie_color = unactiv_color
+    asie_button_pos = (SCREEN_WIDTH/1.33 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
+    asie_button = pygame.Rect(asie_button_pos)
+    
+    afrique_color = unactiv_color
+    afrique_button_pos = (SCREEN_WIDTH/1.33 - 100, SCREEN_HEIGHT/2 + button_vertical_sepraration/2, 200, 50)
+    afrique_button = pygame.Rect(afrique_button_pos)
+    
+    oceanie_color = unactiv_color
+    oceanie_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
     # display menu
     while len(countrys) == 0:
         europe_button_text = base_font.render("Europe names", True, (255, 255, 255))
@@ -124,14 +141,37 @@ def countrydle():
         pygame.draw.rect(screen, asie_color, asie_button, border_radius=border_radius)
         pygame.draw.rect(screen, afrique_color, afrique_button, border_radius=border_radius)
         pygame.draw.rect(screen, oceanie_color, oceanie_button, border_radius=border_radius)
-        screen.blit(europe_button_text, (iso_button.x + iso_button.width/2 - europe_button_text.get_width()/2, iso_button.y + iso_button.height/2 - europe_button_text.get_height()/2))
-        screen.blit(amerique_button_text, (iso_button.x + iso_button.width/2 - amerique_button_text.get_width()/2, iso_button.y + iso_button.height/2 - amerique_button_text.get_height()/2))
+        screen.blit(europe_button_text, (europe_button.x + europe_button.width/2 - europe_button_text.get_width()/2, europe_button.y + europe_button.height/2 - europe_button_text.get_height()/2))
+        screen.blit(amerique_button_text, (amerique_button.x + amerique_button.width/2 - amerique_button_text.get_width()/2, amerique_button.y + amerique_button.height/2 - amerique_button_text.get_height()/2))
+        screen.blit(asie_button_text, (asie_button.x + asie_button.width/2 - asie_button_text.get_width()/2, asie_button.y + asie_button.height/2 - asie_button_text.get_height()/2))
+        screen.blit(afrique_button_text, (afrique_button.x + afrique_button.width/2 - afrique_button_text.get_width()/2, afrique_button.y + afrique_button.height/2 - afrique_button_text.get_height()/2))
+        screen.blit(oceanie_button_text, (oceanie_button.x + oceanie_button.width/2 - oceanie_button_text.get_width()/2, oceanie_button.y + oceanie_button.height/2 - oceanie_button_text.get_height()/2))
         pygame.display.flip()
         for event in pygame.event.get(): 
-            if iso_button.collidepoint(pygame.mouse.get_pos()):
-                iso_color = activ_color
+            if europe_button.collidepoint(pygame.mouse.get_pos()):
+                europe_color = activ_color
             else:
-                iso_color = unactiv_color
+                europe_color = unactiv_color
+            
+            if amerique_button.collidepoint(pygame.mouse.get_pos()):
+                amerique_color = activ_color
+            else:
+                amerique_color = unactiv_color
+            
+            if asie_button.collidepoint(pygame.mouse.get_pos()):
+                asie_color = activ_color
+            else:
+                asie_color = unactiv_color
+            
+            if afrique_button.collidepoint(pygame.mouse.get_pos()):
+                afrique_color = activ_color
+            else:
+                afrique_color = unactiv_color
+            
+            if oceanie_button.collidepoint(pygame.mouse.get_pos()):
+                oceanie_color = activ_color
+            else:
+                oceanie_color = unactiv_color
             
             if event.type == pygame.QUIT: 
                 return_to_laucher()
@@ -142,15 +182,43 @@ def countrydle():
                     
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # make the button smaller when clicked
-                if iso_button.collidepoint(event.pos):
-                    iso_button = pygame.Rect(SCREEN_WIDTH/2 - 175/2, SCREEN_HEIGHT/2 - button_vertical_sepraration/2+2.5, 175, 45)
+                if europe_button.collidepoint(event.pos):
+                    europe_button = pygame.Rect(SCREEN_WIDTH/4 - 175/2, SCREEN_HEIGHT/2 - button_vertical_sepraration/2+2.5, 175, 45)
+                if amerique_button.collidepoint(event.pos):
+                    amerique_button = pygame.Rect(SCREEN_WIDTH/4 - 175/2, SCREEN_HEIGHT/2 + button_vertical_sepraration/2+2.5, 175, 45)
+                if asie_button.collidepoint(event.pos):
+                    asie_button = pygame.Rect(SCREEN_WIDTH/1.33 - 175/2, SCREEN_HEIGHT/2 - button_vertical_sepraration/2+2.5, 175, 45)
+                if afrique_button.collidepoint(event.pos):
+                    afrique_button = pygame.Rect(SCREEN_WIDTH/1.33 - 175/2, SCREEN_HEIGHT/2 + button_vertical_sepraration/2+2.5, 175, 45)
+                if oceanie_button.collidepoint(event.pos):
+                    oceanie_button = pygame.Rect(SCREEN_WIDTH/2 - 175/2, SCREEN_HEIGHT/2 - button_vertical_sepraration/2+2.5, 175, 45)
                 
             if event.type == pygame.MOUSEBUTTONUP:
-                if iso_button.collidepoint(event.pos):                
+                if europe_button.collidepoint(event.pos):                
                     pygame.display.set_caption("countrydle name mode")
-                    COUNTRY_PATH = "games\\country"
-                    iso_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
-                    countrys = load_countrys()                
+                    COUNTRY_PATH = "games\\country\\Europe"
+                    europe_button = pygame.Rect(europe_button_pos)
+                    countrys = load_countrys()
+                if amerique_button.collidepoint(event.pos):                
+                    pygame.display.set_caption("countrydle name mode")
+                    COUNTRY_PATH = "games\\country\\Amerique"
+                    amerique_button = pygame.Rect(amerique_button_pos)
+                    countrys = load_countrys()
+                if asie_button.collidepoint(event.pos):                
+                    pygame.display.set_caption("countrydle name mode")
+                    COUNTRY_PATH = "games\\country\\Asie"
+                    asie_button = pygame.Rect(asie_button_pos)
+                    countrys = load_countrys()
+                if afrique_button.collidepoint(event.pos):                
+                    pygame.display.set_caption("countrydle name mode")
+                    COUNTRY_PATH = "games\\country\\Afrique"
+                    afrique_button = pygame.Rect(afrique_button_pos)
+                    countrys = load_countrys()
+                if oceanie_button.collidepoint(event.pos):                
+                    pygame.display.set_caption("countrydle name mode")
+                    COUNTRY_PATH = "games\\country\\Oceanie"
+                    oceanie_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
+                    countrys = load_countrys() 
                     
             pygame.display.flip()
 
