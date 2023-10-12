@@ -112,11 +112,20 @@ def countrydle():
     iso_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
     # display menu
     while len(countrys) == 0:
-        iso_button_text = base_font.render("Country names", True, (255, 255, 255))
+        europe_button_text = base_font.render("Europe names", True, (255, 255, 255))
+        amerique_button_text = base_font.render("Amerique names", True, (255, 255, 255))
+        asie_button_text = base_font.render("Asie names", True, (255, 255, 255))
+        afrique_button_text = base_font.render("Afrique names", True, (255, 255, 255))
+        oceanie_button_text = base_font.render("Oceanie names", True, (255, 255, 255))
         # align each text to the center of each buttons (use button position and size)
         screen.fill(BLACK)
-        pygame.draw.rect(screen, iso_color, iso_button, border_radius=border_radius)
-        screen.blit(iso_button_text, (iso_button.x + iso_button.width/2 - iso_button_text.get_width()/2, iso_button.y + iso_button.height/2 - iso_button_text.get_height()/2))
+        pygame.draw.rect(screen, europe_color, europe_button, border_radius=border_radius)
+        pygame.draw.rect(screen, amerique_color, amerique_button, border_radius=border_radius)
+        pygame.draw.rect(screen, asie_color, asie_button, border_radius=border_radius)
+        pygame.draw.rect(screen, afrique_color, afrique_button, border_radius=border_radius)
+        pygame.draw.rect(screen, oceanie_color, oceanie_button, border_radius=border_radius)
+        screen.blit(europe_button_text, (iso_button.x + iso_button.width/2 - europe_button_text.get_width()/2, iso_button.y + iso_button.height/2 - europe_button_text.get_height()/2))
+        screen.blit(amerique_button_text, (iso_button.x + iso_button.width/2 - amerique_button_text.get_width()/2, iso_button.y + iso_button.height/2 - amerique_button_text.get_height()/2))
         pygame.display.flip()
         for event in pygame.event.get(): 
             if iso_button.collidepoint(pygame.mouse.get_pos()):
