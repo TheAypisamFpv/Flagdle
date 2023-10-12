@@ -1,6 +1,4 @@
-import os, sys
-import random
-import pygame
+import os, sys, random, pygame, high_score_saver
 from pygame.locals import *
 
 # pygame.init()

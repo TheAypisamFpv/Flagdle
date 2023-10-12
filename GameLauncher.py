@@ -40,7 +40,7 @@ def load_games(path):
 
     for game in os.listdir(path):
         # check if the file is a python file
-        if game.endswith(".py"):
+        if game.endswith(".py") and "high_score_saver" not in game:
             game = game.split(".")[0]  
             GAMES[game] = game
 
