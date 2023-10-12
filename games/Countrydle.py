@@ -32,14 +32,13 @@ pygame.init()
 clock = pygame.time.Clock() 
 # constants
 # screen
-SCREEN_WIDTH = 1080
-SCREEN_HEIGHT = 720
+SCREEN_WIDTH = 1920
+SCREEN_HEIGHT = 1080
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Countrydle")
 
 # colors
-WHITE = (200, 200, 200)
 BLACK = (25, 25, 25)
 
 # set background color to black
@@ -107,7 +106,7 @@ def return_to_laucher():
     sys.exit()
 
 def countrydle():
-    global COUNTRY_PATH, LIVES, SCORE, lives, guess, active, user_text, input_rect, WIDTH, HEIGHT, unactiv_color, activ_color, button_vertical_sepraration, border_radius, base_font, big_font, SCREEN_WIDTH, SCREEN_HEIGHT, screen, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, clock, WHITE, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT, screen, COUNTRY_PATH, LIVES, lives, SCORE, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, border_radius, base_font, big_font, user_text, WIDTH, HEIGHT, input_rect, unactiv_color, activ_color, active, guess
+    global COUNTRY_PATH, LIVES, SCORE, lives, guess, active, user_text, input_rect, WIDTH, HEIGHT, unactiv_color, activ_color, button_vertical_sepraration, border_radius, base_font, big_font, SCREEN_WIDTH, SCREEN_HEIGHT, screen, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, clock, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT, screen, COUNTRY_PATH, LIVES, lives, SCORE, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, border_radius, base_font, big_font, user_text, WIDTH, HEIGHT, input_rect, unactiv_color, activ_color, active, guess
     countrys = []
     iso_color = unactiv_color
     iso_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
