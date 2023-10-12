@@ -116,7 +116,8 @@ def flagdle():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     return_to_laucher()
-                    
+
+                       
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # make the button smaller when clicked
                 if iso_button.collidepoint(event.pos):
@@ -289,7 +290,7 @@ def flagdle():
 
         # draw rectangle and argument passed which should 
         # be on screen 
-        pygame.draw.rect(screen, (100,100,100), input_rect, border_radius=border_radius*2) 
+        pygame.draw.rect(screen, (30, 30, 30), input_rect, border_radius=border_radius*2) 
 
         text_surface = big_font.render(final_text, True, (255, 255, 255)) 
 
