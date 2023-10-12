@@ -212,7 +212,7 @@ def flagdle():
                     user_text.append(event.unicode)
 
         screen.fill(BLACK)
-        if LIVES == 0:
+        if LIVES <= 0:
             # display game over on the center of the screen
             screen.blit(big_font.render("Game over !", True, (255, 100, 100), (0, 0, 0)), (SCREEN_WIDTH/2 - 300, SCREEN_HEIGHT/2 - 100))
             pygame.display.flip()

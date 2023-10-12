@@ -39,10 +39,10 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Countrydle")
 
 # colors
-BLACK = (25, 25, 25)
+GREY = (40, 40, 40)
 
-# set background color to black
-screen.fill(BLACK)
+# set background color to grey
+screen.fill(GREY)
 
 global COUNTRY_PATH
 # countrys
@@ -82,7 +82,7 @@ def load_countrys():
     countrys = []
     
     if len(os.listdir(COUNTRY_PATH)) == 0:
-        screen.fill(BLACK)
+        screen.fill(GREY)
         screen.blit(big_font.render(f"No country found in ", True, (255, 100, 100), (0, 0, 0)), (SCREEN_WIDTH/2-375, SCREEN_HEIGHT/2 - 100))
         screen.blit(big_font.render(f"'{COUNTRY_PATH}'", True, (255, 100, 100), (0, 0, 0)), (SCREEN_WIDTH/2-275, SCREEN_HEIGHT/2))
         pygame.display.flip()
@@ -106,7 +106,7 @@ def return_to_laucher():
     sys.exit()
 
 def countrydle():
-    global COUNTRY_PATH, LIVES, SCORE, lives, guess, active, user_text, input_rect, WIDTH, HEIGHT, unactiv_color, activ_color, button_vertical_sepraration, border_radius, base_font, big_font, SCREEN_WIDTH, SCREEN_HEIGHT, screen, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, clock, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT, screen, COUNTRY_PATH, LIVES, lives, SCORE, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, border_radius, base_font, big_font, user_text, WIDTH, HEIGHT, input_rect, unactiv_color, activ_color, active, guess
+    global COUNTRY_PATH, LIVES, SCORE, lives, guess, active, user_text, input_rect, WIDTH, HEIGHT, unactiv_color, activ_color, button_vertical_sepraration, border_radius, base_font, big_font, SCREEN_WIDTH, SCREEN_HEIGHT, screen, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, clock, GREY, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT, screen, COUNTRY_PATH, LIVES, lives, SCORE, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, border_radius, base_font, big_font, user_text, WIDTH, HEIGHT, input_rect, unactiv_color, activ_color, active, guess
     countrys = []
     
     europe_color = unactiv_color
@@ -135,7 +135,7 @@ def countrydle():
         afrique_button_text = base_font.render("Afrique names", True, (255, 255, 255))
         oceanie_button_text = base_font.render("Oceanie names", True, (255, 255, 255))
         # align each text to the center of each buttons (use button position and size)
-        screen.fill(BLACK)
+        screen.fill(GREY)
         pygame.draw.rect(screen, europe_color, europe_button, border_radius=border_radius)
         pygame.draw.rect(screen, amerique_color, amerique_button, border_radius=border_radius)
         pygame.draw.rect(screen, asie_color, asie_button, border_radius=border_radius)
@@ -273,7 +273,7 @@ def countrydle():
                     user_text = []
                     prev_country = country
                     if len(countrys) == 0:
-                        screen.fill(BLACK)
+                        screen.fill(GREY)
                         screen.blit(big_font.render(f"You Win !", True, (100, 255, 100), (0, 0, 0)), (SCREEN_WIDTH/2-375, SCREEN_HEIGHT/2 - 100))
                         pygame.display.flip()
                         pygame.time.wait(1000)
@@ -291,8 +291,8 @@ def countrydle():
                 elif event.key != pygame.K_BACKSPACE: 
                     user_text.append(event.unicode)
 
-        screen.fill(BLACK)
-        if LIVES == 0:
+        screen.fill(GREY)
+        if LIVES <= 0:
             # display game over on the center of the screen
             screen.blit(big_font.render("Game over !", True, (255, 100, 100), (0, 0, 0)), (SCREEN_WIDTH/2 - 300, SCREEN_HEIGHT/2 - 100))
             pygame.display.flip()
@@ -310,7 +310,7 @@ def countrydle():
             screen.blit(big_font.render("You got an extra life !", True, (100, 255, 100), (0, 0, 0)), (SCREEN_WIDTH/2 - 400, SCREEN_HEIGHT/2 - 100))
             pygame.display.flip()
             pygame.time.wait(1000)
-            screen.fill(BLACK)
+            screen.fill(GREY)
             pygame.display.flip()
                 
         final_text = ''.join(user_text)

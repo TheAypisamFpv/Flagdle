@@ -17,7 +17,7 @@ big_font = pygame.font.Font(None, 64)
 WHITE = (255, 255, 255)
 LIGHT_GREY = (200, 200, 200)
 GREY = (100, 100, 100)
-DARK_GREY = (30, 30, 30)
+DARK_GREY = (40, 40, 40)
 BLACK = (0, 0, 0)
 
 # set background color to black
