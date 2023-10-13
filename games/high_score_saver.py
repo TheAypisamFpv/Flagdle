@@ -6,9 +6,11 @@ with open(".env", "r") as f:
     webhook_url = f.read()
     webhook_url = webhook_url.split("=")[1]
     
+global user_name 
 user_name = os.getlogin()
     
 def save_score(score, game):
+    global user_name
     # dict of the lines in the high score file
     high_socres = {}
     for line in get_score():
@@ -30,7 +32,7 @@ def save_score(score, game):
         high_socres[game] = score
         send_high_score(game, score)
         
-
+    user_name = os.getlogin()
     # write the new high score file
     with open("high_score.txt", "w") as f:
         for game_ in high_socres:
