@@ -41,6 +41,11 @@ def save_score(score, game):
     
 
 def get_score(game_mode="all"):
+    if not os.path.exists("high_score.txt"):
+        # create the high score file if it does not exist
+        with open("high_score.txt", "w") as f:
+            pass
+               
     with open("high_score.txt", "r") as f:
         scores = f.readlines()
         if game_mode == "all":
@@ -50,7 +55,7 @@ def get_score(game_mode="all"):
                 if game_mode in score:
                     return int(score.split(":")[2])
             return 0
-        
+
 
 
 
