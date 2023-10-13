@@ -16,19 +16,16 @@ def save_score(score, game):
     for line in get_score():
         if len(line) > 5:
             user_name ,game_mode, prev_score = line.removesuffix("\n").split(":")
-            print(f"username : {user_name}, game_mode : {game_mode}, prev_score : {prev_score}")
             high_socres[game_mode] = prev_score
 
 
     #  if the game is not in the high score file, add it
     if game not in high_socres:
-        print("new game")
         high_socres[game] = score
         send_high_score(game, score)
 
     
     if int(score) > int(high_socres[game]):
-        print("new high score")
         high_socres[game] = score
         send_high_score(game, score)
         

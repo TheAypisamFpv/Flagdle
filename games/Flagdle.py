@@ -182,7 +182,6 @@ def flagdle():
                 if event.key == pygame.K_RETURN:
                     if len(user_text) == 0:
                         continue
-                    # print(flag)
                     final_text = ''.join(user_text)
                     
                     if final_text.lower() == flag.lower():
