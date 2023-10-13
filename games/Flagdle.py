@@ -131,13 +131,13 @@ def flagdle():
                 
             if event.type == pygame.MOUSEBUTTONUP:
                 if iso_button.collidepoint(event.pos):                
-                    pygame.display.set_caption("Flagdle iso mode")
+                    pygame.display.set_caption("Flagdle iso")
                     FLAGS_PATH = "games\\flags\\iso"
                     iso_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
                     flags = load_flags()
                     
                 if french_button.collidepoint(event.pos):
-                    pygame.display.set_caption("Flagdle french mode")
+                    pygame.display.set_caption("Flagdle french")
                     FLAGS_PATH = "games\\flags\\french"
                     french_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 + button_vertical_sepraration/2, 200, 50)
                     flags = load_flags()
