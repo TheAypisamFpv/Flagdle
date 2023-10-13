@@ -43,7 +43,8 @@ def send_high_score():
                 "description": f"{username} just got a new high score in {game} : {score} !",
                 "color": 0x00ff00
             }
-        ]
+        ],
+        "avatar_url": "https://cdn.discordapp.com/attachments/1083744401970450532/1162283609303023666/il.png?ex=653b5ff6&is=6528eaf6&hm=3ff6e52b41c98476c8db696d0c2fd874a8c1f6744c914060732bb41733f6c1ce&"
     }
 
     error_code = requests.post(webhook_url, json=json)
