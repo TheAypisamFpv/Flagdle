@@ -281,6 +281,7 @@ def countrydle():
                     if len(countrys) == 0:
                         screen.fill(GREY)
                         screen.blit(big_font.render(f"You Win !", True, (100, 255, 100), (0, 0, 0)), (SCREEN_WIDTH/2-375, SCREEN_HEIGHT/2 - 100))
+                        high_score_saver.save_score(HIGH_SCORE, pygame.display.get_caption()[0])
                         pygame.display.flip()
                         pygame.time.wait(1000)
                         # restart the game
