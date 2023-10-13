@@ -30,8 +30,7 @@ lives = 0
 
 # score
 SCORE = 0
-HIGH_SCORE = high_score_saver.get_score()
-HIGH_SCORE = int(HIGH_SCORE.split(":")[2]) if ":" in HIGH_SCORE else 0
+HIGH_SCORE = SCORE
 
 LIVES_POS = (5, 5)
 SCORE_POS = (5, 55)
@@ -78,7 +77,9 @@ def random_flag(flags):
     return flag
 
 def return_to_laucher():
-    high_score_saver.save_score(HIGH_SCORE, pygame.display.get_caption()[0])
+    if pygame.display.get_caption()[0] != "Flagdle":
+        high_score_saver.save_score(HIGH_SCORE, pygame.display.get_caption()[0])
+        
     launcher_path = 'GameLauncher.py'
     pygame.quit()
     os.system(f'python {launcher_path}')
@@ -145,6 +146,7 @@ def flagdle():
                     
             pygame.display.flip()
 
+    HIGH_SCORE = high_score_saver.get_score(pygame.display.get_caption()[0])
 
     flag = random_flag(flags)
 

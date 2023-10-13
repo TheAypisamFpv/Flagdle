@@ -9,38 +9,59 @@ with open(".env", "r") as f:
 user_name = os.getlogin()
     
 def save_score(score, game):
-    prev_score = get_score()
-    prev_score = int(prev_score.split(":")[2]) if ":" in prev_score else 0
-    high_score = f"{user_name}:{game}:{score}"
-    if prev_score < score:
-        try:
-            with open("high_score.txt", "w") as f:
-                f.write(high_score)
-            send_high_score()
-            return 0
-        except:
-            return 1
-
-def get_score():
-    try:
-        with open("high_score.txt", "r") as f:
-            score = f.read()
-        return score
-    except:
-        return "No high score yet !"
+    # dict of the lines in the high score file
+    high_socres = {}
+    for line in get_score():
+        if len(line) > 5:
+            user_name ,game_mode, prev_score = line.removesuffix("\n").split(":")
+            print(f"username : {user_name}, game_mode : {game_mode}, prev_score : {prev_score}")
+            high_socres[game_mode] = prev_score
 
 
+    #  if the game is not in the high score file, add it
+    if game not in high_socres:
+        print("new game")
+        high_socres[game] = score
+        send_high_score(game, score)
 
-def send_high_score():
-    score = get_score()
     
-    username, game, score = score.split(":") if ":" in score else ("none", "none", "none")
+    if int(score) > int(high_socres[game]):
+        print("new high score")
+        high_socres[game] = score
+        send_high_score(game, score)
+        
+
+    # write the new high score file
+    with open("high_score.txt", "w") as f:
+        for game_ in high_socres:
+            f.write(f"{user_name}:{game_}:{high_socres[game_]}\n")
+
+    return 0
+
+    
+
+def get_score(game_mode="all"):
+    with open("high_score.txt", "r") as f:
+        scores = f.readlines()
+        if game_mode == "all":
+            return scores
+        else:
+            for score in scores:
+                if game_mode in score:
+                    return int(score.split(":")[2])
+            return 0
+        
+
+
+
+def send_high_score(game, score):
+    
     # good looking embed
     json = {
         "embeds": [
             {
                 "title": f"New High Score !",
-                "description": f"{username} just got a new high score in {game} : {score} !",
+                "description": f"{user_name} just got a new high score in `{game}` : {score} !",
                 "color": 0x00ff00
             }
         ],

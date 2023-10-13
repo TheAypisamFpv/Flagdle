@@ -30,8 +30,8 @@ pygame.init()
 clock = pygame.time.Clock() 
 # constants
 # screen
-SCREEN_WIDTH = 1920
-SCREEN_HEIGHT = 1080
+SCREEN_WIDTH = 1080
+SCREEN_HEIGHT = 720
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Countrydle")
@@ -47,16 +47,18 @@ global COUNTRY_PATH
 COUNTRY_PATH = "games\\country"
 
 # lives
-global LIVES, lives, SCORE, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, border_radius, base_font, big_font, user_text, WIDTH, HEIGHT, input_rect, unactiv_color, activ_color, active, guess
+global LIVES, lives, SCORE, HIGH_SCORE, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, border_radius, base_font, big_font, user_text, WIDTH, HEIGHT, input_rect, unactiv_color, activ_color, active, guess
 LIVES = 5
 lives = 0
 
 # score
 SCORE = 0
+HIGH_SCORE = SCORE
 
-LIVES_POS = (0, 0)
-SCORE_POS = (0, 50)
-GUESS_POS = (0, 100)
+LIVES_POS = (5, 5)
+SCORE_POS = (5, 55)
+HIGH_SCORE_POS = (5, 105)
+GUESS_POS = (5, 155)
 TEXT_WIDTH = 100
 border_radius = 15
 # basic font for user typed 
@@ -98,13 +100,16 @@ def random_country(countrys):
     return country
 
 def return_to_laucher():
+    if pygame.display.get_caption()[0] != "countrydle":
+        high_score_saver.save_score(HIGH_SCORE, pygame.display.get_caption()[0])
+        
     launcher_path = 'GameLauncher.py'
     pygame.quit()
     os.system(f'python {launcher_path}')
     sys.exit()
 
 def countrydle():
-    global COUNTRY_PATH, LIVES, SCORE, lives, guess, active, user_text, input_rect, WIDTH, HEIGHT, unactiv_color, activ_color, button_vertical_sepraration, border_radius, base_font, big_font, SCREEN_WIDTH, SCREEN_HEIGHT, screen, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, clock, GREY, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT, screen, COUNTRY_PATH, LIVES, lives, SCORE, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, border_radius, base_font, big_font, user_text, WIDTH, HEIGHT, input_rect, unactiv_color, activ_color, active, guess
+    global COUNTRY_PATH, LIVES, SCORE, HIGH_SCORE, lives, guess, active, user_text, input_rect, WIDTH, HEIGHT, unactiv_color, activ_color, button_vertical_sepraration, border_radius, base_font, big_font, SCREEN_WIDTH, SCREEN_HEIGHT, screen, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, clock, GREY, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT, screen, COUNTRY_PATH, LIVES, lives, SCORE, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, border_radius, base_font, big_font, user_text, WIDTH, HEIGHT, input_rect, unactiv_color, activ_color, active, guess
     countrys = []
     
     europe_color = unactiv_color
@@ -223,9 +228,12 @@ def countrydle():
 
     country = random_country(countrys)
 
+    HIGH_SCORE = high_score_saver.get_score(pygame.display.get_caption()[0])
+
     # main
     while True:
-        
+        if SCORE > HIGH_SCORE:
+            HIGH_SCORE = SCORE
         pygame.display.flip()
         for event in pygame.event.get(): 
 
@@ -351,6 +359,11 @@ def countrydle():
         pygame.draw.rect(screen, (50,50,50), score_rect, border_radius=border_radius)
         # text centered in the rectangle
         screen.blit(score_text, (score_rect.x + score_rect.width/2 - score_text.get_width()/2, score_rect.y + score_rect.height/2 - score_text.get_height()/2))
+
+        high_score_text = base_font.render("High score: " + str(HIGH_SCORE), True, (255, 255, 255))
+        high_score_rect = pygame.Rect(HIGH_SCORE_POS[0], HIGH_SCORE_POS[1], high_score_text.get_width()+border_radius, high_score_text.get_height()+border_radius)
+        pygame.draw.rect(screen, (50,50,50), high_score_rect, border_radius=border_radius)
+        screen.blit(high_score_text, (high_score_rect.x + high_score_rect.width/2 - high_score_text.get_width()/2, high_score_rect.y + high_score_rect.height/2 - high_score_text.get_height()/2))
         
 
         if type(guess) == bool:
