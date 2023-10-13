@@ -193,27 +193,27 @@ def countrydle():
                 
             if event.type == pygame.MOUSEBUTTONUP:
                 if europe_button.collidepoint(event.pos):                
-                    pygame.display.set_caption("countrydle name mode")
+                    pygame.display.set_caption("countrydle name mode Europe")
                     COUNTRY_PATH = "games\\country\\Europe"
                     europe_button = pygame.Rect(europe_button_pos)
                     countrys = load_countrys()
                 if amerique_button.collidepoint(event.pos):                
-                    pygame.display.set_caption("countrydle name mode")
+                    pygame.display.set_caption("countrydle name mode Amerique")
                     COUNTRY_PATH = "games\\country\\Amerique"
                     amerique_button = pygame.Rect(amerique_button_pos)
                     countrys = load_countrys()
                 if asie_button.collidepoint(event.pos):                
-                    pygame.display.set_caption("countrydle name mode")
+                    pygame.display.set_caption("countrydle name mode Asie")
                     COUNTRY_PATH = "games\\country\\Asie"
                     asie_button = pygame.Rect(asie_button_pos)
                     countrys = load_countrys()
                 if afrique_button.collidepoint(event.pos):                
-                    pygame.display.set_caption("countrydle name mode")
+                    pygame.display.set_caption("countrydle name mode Afrique")
                     COUNTRY_PATH = "games\\country\\Afrique"
                     afrique_button = pygame.Rect(afrique_button_pos)
                     countrys = load_countrys()
                 if oceanie_button.collidepoint(event.pos):                
-                    pygame.display.set_caption("countrydle name mode")
+                    pygame.display.set_caption("countrydle name mode Oceanie")
                     COUNTRY_PATH = "games\\country\\Oceanie"
                     oceanie_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
                     countrys = load_countrys() 
