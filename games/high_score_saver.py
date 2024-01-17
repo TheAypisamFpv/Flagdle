@@ -6,7 +6,7 @@ try:
         webhook_url = f.read()
         webhook_url = webhook_url.split("=")[1]
 except:
-    print("No '.env' file found\nYou can create one with the content 'webhook_url=your_webhook_url'")
+    print(".env file empty or not found\nYou can create one with the content 'webhook_url=your_webhook_url'")
     
 global user_name 
 user_name = os.getlogin()
