@@ -1,10 +1,12 @@
 import os
 import requests
 
-
-with open(".env", "r") as f:
-    webhook_url = f.read()
-    webhook_url = webhook_url.split("=")[1]
+try:
+    with open(".env", "r") as f:
+        webhook_url = f.read()
+        webhook_url = webhook_url.split("=")[1]
+except:
+    print("No '.env' file found\nYou can create one with the content 'webhook_url=your_webhook_url'")
     
 global user_name 
 user_name = os.getlogin()
@@ -59,8 +61,9 @@ def get_score(game_mode="all"):
 
 
 def send_high_score(game, score):
+    if webhook_url == "":
+        return 1
     
-    # good looking embed
     json = {
         "embeds": [
             {
