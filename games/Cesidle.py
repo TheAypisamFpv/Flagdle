@@ -69,7 +69,7 @@ def load_questions():
         # sys.exit()
 
     for question in os.listdir(QUESTIONS_PATH):
-        if "_postanwser" not in question and question.endswith(".png"):
+        if "_postanswer" not in question and question.endswith(".png"):
             questions.append(question.rsplit(".", 1)[0])
     return questions
 
@@ -171,8 +171,8 @@ def Cesidle():
                         questions.remove(question)
                         guess = True
                         # check if there is a postanwser image
-                        if os.path.isfile(os.path.join(QUESTIONS_PATH, question+"_postanwser.png")):
-                            show_image(os.path.join(QUESTIONS_PATH, question+"_postanwser.png"))
+                        if os.path.isfile(os.path.join(QUESTIONS_PATH, question+"_postanswer.png")):
+                            show_image(os.path.join(QUESTIONS_PATH, question+"_postanswer.png"))
                             pygame.display.flip()
                             pygame.time.wait(5000)
                     else:
