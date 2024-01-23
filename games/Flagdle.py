@@ -9,7 +9,7 @@ clock = pygame.time.Clock()
 SCREEN_WIDTH = 1080
 SCREEN_HEIGHT = 720
 
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
 pygame.display.set_caption("Flagdle")
 
 # colors
@@ -90,10 +90,16 @@ def flagdle():
     flags = []
     iso_color = unactiv_color
     french_color = unactiv_color
-    iso_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
-    french_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 + button_vertical_sepraration/2, 200, 50)
+    
     # display menu
     while len(flags) == 0:
+        SCREEN_WIDTH = pygame.display.Info().current_w
+        SCREEN_HEIGHT = pygame.display.Info().current_h
+
+
+        iso_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
+        french_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 + button_vertical_sepraration/2, 200, 50)
+    
         french_button_text = base_font.render("French names", True, (255, 255, 255))
         iso_button_text = base_font.render("Iso names", True, (255, 255, 255))
         # align each text to the center of each buttons (use button position and size)
@@ -152,6 +158,9 @@ def flagdle():
 
     # main
     while True:
+        SCREEN_WIDTH = pygame.display.Info().current_w
+        SCREEN_HEIGHT = pygame.display.Info().current_h
+        
         if SCORE > HIGH_SCORE:
             HIGH_SCORE = SCORE
         pygame.display.flip()
@@ -309,6 +318,8 @@ def flagdle():
 
         # move rectangle to the center if the width is increased
         input_rect.x = SCREEN_WIDTH/2 - input_rect.width/2
+        # mode the rectangle to the bottom of the screen
+        input_rect.y = SCREEN_HEIGHT - input_rect.height
         
         # render in the center of input_rect
         screen.blit(text_surface, (input_rect.x + input_rect.width/2 - text_surface.get_width()/2, input_rect.y + input_rect.height/2 - text_surface.get_height()/2))

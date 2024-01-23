@@ -33,7 +33,7 @@ clock = pygame.time.Clock()
 SCREEN_WIDTH = 1080
 SCREEN_HEIGHT = 720
 
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
 pygame.display.set_caption("Countrydle")
 
 # colors
@@ -111,27 +111,31 @@ def return_to_laucher():
 def countrydle():
     global COUNTRY_PATH, LIVES, SCORE, HIGH_SCORE, lives, guess, active, user_text, input_rect, WIDTH, HEIGHT, unactiv_color, activ_color, button_vertical_sepraration, border_radius, base_font, big_font, SCREEN_WIDTH, SCREEN_HEIGHT, screen, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, clock, GREY, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT, screen, COUNTRY_PATH, LIVES, lives, SCORE, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, border_radius, base_font, big_font, user_text, WIDTH, HEIGHT, input_rect, unactiv_color, activ_color, active, guess
     countrys = []
-    
-    europe_color = unactiv_color
-    europe_button_pos = (SCREEN_WIDTH/4 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
-    europe_button = pygame.Rect(europe_button_pos)
-    
-    amerique_color = unactiv_color
-    amerique_button_pos = (SCREEN_WIDTH/4 - 100, SCREEN_HEIGHT/2 + button_vertical_sepraration/2, 200, 50)
-    amerique_button = pygame.Rect(amerique_button_pos)
-    
-    asie_color = unactiv_color
-    asie_button_pos = (SCREEN_WIDTH/1.33 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
-    asie_button = pygame.Rect(asie_button_pos)
-    
-    afrique_color = unactiv_color
-    afrique_button_pos = (SCREEN_WIDTH/1.33 - 100, SCREEN_HEIGHT/2 + button_vertical_sepraration/2, 200, 50)
-    afrique_button = pygame.Rect(afrique_button_pos)
-    
-    oceanie_color = unactiv_color
-    oceanie_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
+
+    europe_color, amerique_color, asie_color, afrique_color, oceanie_color = unactiv_color, unactiv_color, unactiv_color, unactiv_color, unactiv_color
+
+
     # display menu
     while len(countrys) == 0:
+        SCREEN_WIDTH = pygame.display.Info().current_w
+        SCREEN_HEIGHT = pygame.display.Info().current_h
+        
+        europe_button_pos = (SCREEN_WIDTH/4 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
+        europe_button = pygame.Rect(europe_button_pos)
+        
+        amerique_button_pos = (SCREEN_WIDTH/4 - 100, SCREEN_HEIGHT/2 + button_vertical_sepraration/2, 200, 50)
+        amerique_button = pygame.Rect(amerique_button_pos)
+        
+        asie_button_pos = (SCREEN_WIDTH/1.33 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
+        asie_button = pygame.Rect(asie_button_pos)
+        
+        afrique_button_pos = (SCREEN_WIDTH/1.33 - 100, SCREEN_HEIGHT/2 + button_vertical_sepraration/2, 200, 50)
+        afrique_button = pygame.Rect(afrique_button_pos)
+        
+        oceanie_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
+
+
+        
         europe_button_text = base_font.render("Europe names", True, (255, 255, 255))
         amerique_button_text = base_font.render("Amerique names", True, (255, 255, 255))
         asie_button_text = base_font.render("Asie names", True, (255, 255, 255))
@@ -232,6 +236,9 @@ def countrydle():
 
     # main
     while True:
+        SCREEN_WIDTH = pygame.display.Info().current_w
+        SCREEN_HEIGHT = pygame.display.Info().current_h
+        
         if SCORE > HIGH_SCORE:
             HIGH_SCORE = SCORE
         pygame.display.flip()
@@ -387,6 +394,8 @@ def countrydle():
 
         # move rectangle to the center if the width is increased
         input_rect.x = SCREEN_WIDTH/2 - input_rect.width/2
+        # mode the rectangle to the bottom of the screen
+        input_rect.y = SCREEN_HEIGHT - input_rect.height
         
         # render in the center of input_rect
         screen.blit(text_surface, (input_rect.x + input_rect.width/2 - text_surface.get_width()/2, input_rect.y + input_rect.height/2 - text_surface.get_height()/2))

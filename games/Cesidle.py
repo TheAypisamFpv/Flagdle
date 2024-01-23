@@ -7,11 +7,13 @@ clock = pygame.time.Clock()
 # constants
 # screen
 SCREEN_WIDTH = 1080
-SCREEN_HEIGHT = 720
+SCREEN_HEIGHT = 1080
 
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
+#make the window resizable
 pygame.display.set_caption("Cesidle")
 SKILL_ISSUE = "games\\skill issue.png"
+WIN = "games\\win.png"
 # colors
 GREY = (40, 40, 40)
 
@@ -133,6 +135,8 @@ def Cesidle():
 
     # main
     while True:
+        SCREEN_WIDTH = pygame.display.get_surface().get_width()
+        SCREEN_HEIGHT = pygame.display.get_surface().get_height()
         if SCORE > HIGH_SCORE:
             HIGH_SCORE = SCORE
         pygame.display.flip()
@@ -185,16 +189,15 @@ def Cesidle():
                     prev_country = question
                     if len(questions) == 0:
                         if index < len(QUESTIONS_PATH_LIST)-1:
-                            LIVES += 1
                             index += 1
                             QUESTIONS_PATH = DEFAULT_PATH+"\\"+QUESTIONS_PATH_LIST[index]
                             show_current_mode(index)
                         else:
                             screen.fill(GREY)
-                            screen.blit(big_font.render(f"You Win !", True, (100, 255, 100), (0, 0, 0)), (SCREEN_WIDTH/2-375, SCREEN_HEIGHT/2 - 100))
+                            show_image(WIN)
                             high_score_saver.save_score(HIGH_SCORE, pygame.display.get_caption()[0])
                             pygame.display.flip()
-                            pygame.time.wait(1000)
+                            pygame.time.wait(5000)
                             # restart the game
                             return_to_laucher()
                         questions = load_questions()
@@ -290,6 +293,8 @@ def Cesidle():
 
         # move rectangle to the center if the width is increased
         input_rect.x = SCREEN_WIDTH/2 - input_rect.width/2
+        # mode the rectangle to the bottom of the screen
+        input_rect.y = SCREEN_HEIGHT - input_rect.height
         
         # render in the center of input_rect
         screen.blit(text_surface, (input_rect.x + input_rect.width/2 - text_surface.get_width()/2, input_rect.y + input_rect.height/2 - text_surface.get_height()/2))
@@ -301,10 +306,6 @@ def Cesidle():
         # display.flip() will update only a portion of the 
         # screen to updated, not full area 
         pygame.display.flip() 
-        
-        # clock.tick(60) means that for every second at most 
-        # 60 frames should be passed. 
-        clock.tick(60)
 
 try:
     Cesidle()
