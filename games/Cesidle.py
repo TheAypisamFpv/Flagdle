@@ -7,7 +7,7 @@ clock = pygame.time.Clock()
 # constants
 # screen
 SCREEN_WIDTH = 1080
-SCREEN_HEIGHT = 1080
+SCREEN_HEIGHT = 810
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
 #make the window resizable
