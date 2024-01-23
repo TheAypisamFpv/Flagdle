@@ -11,20 +11,21 @@ SCREEN_HEIGHT = 720
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Cesidle")
-
+SKILL_ISSUE = "games\\skill issue.png"
 # colors
 GREY = (40, 40, 40)
 
 # set background color to grey
 screen.fill(GREY)
 
-global QUESTIONS_PATH
+global QUESTIONS_PATH, QUESTIONS_PATH_LIST
 # countrys
+DEFAULT_PATH = "games\\cesidle"
 QUESTIONS_PATH = "games\\cesidle"
-
+QUESTIONS_PATH_LIST = os.listdir(QUESTIONS_PATH)
 # lives
 global LIVES, lives, SCORE, HIGH_SCORE, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, border_radius, base_font, big_font, user_text, WIDTH, HEIGHT, input_rect, unactiv_color, activ_color, active, guess
-LIVES = 5
+LIVES = len(QUESTIONS_PATH_LIST)
 lives = 0
 
 # score
@@ -68,11 +69,18 @@ def load_questions():
         # sys.exit()
 
     for question in os.listdir(QUESTIONS_PATH):
-        questions.append(question.removesuffix(".png"))
+        if "_postanwser" not in question and question.endswith(".png"):
+            questions.append(question.rsplit(".", 1)[0])
     return questions
 
-def random_questions(questions):
-    question = random.choice(questions)
+def random_questions(questions, current_question):
+    question = current_question
+    if len(questions) == 1:
+        return questions[0]
+    else:
+        while question == current_question:
+            question = random.choice(questions)
+        
     return question
 
 def return_to_laucher():
@@ -84,125 +92,42 @@ def return_to_laucher():
     os.system(f'python {launcher_path}')
     sys.exit()
 
+
+def show_current_mode(index):
+    mode = QUESTIONS_PATH_LIST[index]
+    screen.fill(GREY)
+    #show the current mode
+    screen.blit(big_font.render(f"{mode}", True, (255, 255, 255), (0, 0, 0)), (SCREEN_WIDTH/2-500, SCREEN_HEIGHT/2 - 100))
+    pygame.display.flip()
+    pygame.time.wait(3000)
+    
+
+
+def show_image(image_path):
+    image = pygame.image.load(image_path).convert()
+    image_width = image.get_width()
+    image_height = image.get_height()
+    # rezise the country to fit in the screen, without changing the aspect ratio
+    if image_width > SCREEN_WIDTH:
+        image = pygame.transform.scale(image, (SCREEN_WIDTH, int(image_height*SCREEN_WIDTH/image_width)))
+    if image_height > SCREEN_HEIGHT:
+        image = pygame.transform.scale(image, (int(image_width*SCREEN_HEIGHT/image_height), SCREEN_HEIGHT))
+
+    screen.blit(image, (SCREEN_WIDTH/2 - image.get_width()/2, SCREEN_HEIGHT/2 - image.get_height()/2))
+
+
 def Cesidle():
     global QUESTIONS_PATH, LIVES, SCORE, HIGH_SCORE, lives, guess, active, user_text, input_rect, WIDTH, HEIGHT, unactiv_color, activ_color, button_vertical_sepraration, border_radius, base_font, big_font, SCREEN_WIDTH, SCREEN_HEIGHT, screen, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, clock, GREY, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT, screen, QUESTIONS_PATH, LIVES, lives, SCORE, LIVES_POS, SCORE_POS, GUESS_POS, TEXT_WIDTH, border_radius, base_font, big_font, user_text, WIDTH, HEIGHT, input_rect, unactiv_color, activ_color, active, guess
     questions = []
     
-    theme1_color = unactiv_color
-    theme1_button_pos = (SCREEN_WIDTH/4 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
-    theme1_button = pygame.Rect(theme1_button_pos)
+    index = 0
+    show_current_mode(index)
     
-    theme2_color = unactiv_color
-    theme2_button_pos = (SCREEN_WIDTH/4 - 100, SCREEN_HEIGHT/2 + button_vertical_sepraration/2, 200, 50)
-    theme2_button = pygame.Rect(theme2_button_pos)
-    
-    theme3_color = unactiv_color
-    theme3_button_pos = (SCREEN_WIDTH/1.33 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
-    theme3_button = pygame.Rect(theme3_button_pos)
-    
-    theme4_color = unactiv_color
-    theme4_button_pos = (SCREEN_WIDTH/1.33 - 100, SCREEN_HEIGHT/2 + button_vertical_sepraration/2, 200, 50)
-    theme4_button = pygame.Rect(theme4_button_pos)
-    
-    theme5_color = unactiv_color
-    theme5_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
-    # display menu
-    while len(questions) == 0:
-        theme1_button_text = base_font.render("theme1", True, (255, 255, 255))
-        theme2_button_text = base_font.render("theme2", True, (255, 255, 255))
-        theme3_button_text = base_font.render("theme3", True, (255, 255, 255))
-        theme4_button_text = base_font.render("theme4", True, (255, 255, 255))
-        theme5_button_text = base_font.render("theme5", True, (255, 255, 255))
-        # align each text to the center of each buttons (use button position and size)
-        screen.fill(GREY)
-        pygame.draw.rect(screen, theme1_color, theme1_button, border_radius=border_radius)
-        pygame.draw.rect(screen, theme2_color, theme2_button, border_radius=border_radius)
-        pygame.draw.rect(screen, theme3_color, theme3_button, border_radius=border_radius)
-        pygame.draw.rect(screen, theme4_color, theme4_button, border_radius=border_radius)
-        pygame.draw.rect(screen, theme5_color, theme5_button, border_radius=border_radius)
-        screen.blit(theme1_button_text, (theme1_button.x + theme1_button.width/2 - theme1_button_text.get_width()/2, theme1_button.y + theme1_button.height/2 - theme1_button_text.get_height()/2))
-        screen.blit(theme2_button_text, (theme2_button.x + theme2_button.width/2 - theme2_button_text.get_width()/2, theme2_button.y + theme2_button.height/2 - theme2_button_text.get_height()/2))
-        screen.blit(theme3_button_text, (theme3_button.x + theme3_button.width/2 - theme3_button_text.get_width()/2, theme3_button.y + theme3_button.height/2 - theme3_button_text.get_height()/2))
-        screen.blit(theme4_button_text, (theme4_button.x + theme4_button.width/2 - theme4_button_text.get_width()/2, theme4_button.y + theme4_button.height/2 - theme4_button_text.get_height()/2))
-        screen.blit(theme5_button_text, (theme5_button.x + theme5_button.width/2 - theme5_button_text.get_width()/2, theme5_button.y + theme5_button.height/2 - theme5_button_text.get_height()/2))
-        pygame.display.flip()
-        for event in pygame.event.get(): 
-            if theme1_button.collidepoint(pygame.mouse.get_pos()):
-                theme1_color = activ_color
-            else:
-                theme1_color = unactiv_color
-            
-            if theme2_button.collidepoint(pygame.mouse.get_pos()):
-                theme2_color = activ_color
-            else:
-                theme2_color = unactiv_color
-            
-            if theme3_button.collidepoint(pygame.mouse.get_pos()):
-                theme3_color = activ_color
-            else:
-                theme3_color = unactiv_color
-            
-            if theme4_button.collidepoint(pygame.mouse.get_pos()):
-                theme4_color = activ_color
-            else:
-                theme4_color = unactiv_color
-            
-            if theme5_button.collidepoint(pygame.mouse.get_pos()):
-                theme5_color = activ_color
-            else:
-                theme5_color = unactiv_color
-            
-            if event.type == pygame.QUIT: 
-                return_to_laucher()
-                
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    return_to_laucher()
-                    
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                # make the button smaller when clicked
-                if theme1_button.collidepoint(event.pos):
-                    theme1_button = pygame.Rect(SCREEN_WIDTH/4 - 175/2, SCREEN_HEIGHT/2 - button_vertical_sepraration/2+2.5, 175, 45)
-                if theme2_button.collidepoint(event.pos):
-                    theme2_button = pygame.Rect(SCREEN_WIDTH/4 - 175/2, SCREEN_HEIGHT/2 + button_vertical_sepraration/2+2.5, 175, 45)
-                if theme3_button.collidepoint(event.pos):
-                    theme3_button = pygame.Rect(SCREEN_WIDTH/1.33 - 175/2, SCREEN_HEIGHT/2 - button_vertical_sepraration/2+2.5, 175, 45)
-                if theme4_button.collidepoint(event.pos):
-                    theme4_button = pygame.Rect(SCREEN_WIDTH/1.33 - 175/2, SCREEN_HEIGHT/2 + button_vertical_sepraration/2+2.5, 175, 45)
-                if theme5_button.collidepoint(event.pos):
-                    theme5_button = pygame.Rect(SCREEN_WIDTH/2 - 175/2, SCREEN_HEIGHT/2 - button_vertical_sepraration/2+2.5, 175, 45)
-                
-            if event.type == pygame.MOUSEBUTTONUP:
-                if theme1_button.collidepoint(event.pos):                
-                    pygame.display.set_caption("Cesidle theme1")
-                    QUESTIONS_PATH = "games\\cesidle\\theme1"
-                    theme1_button = pygame.Rect(theme1_button_pos)
-                    questions = load_questions()
-                if theme2_button.collidepoint(event.pos):                
-                    pygame.display.set_caption("Cesidle theme2")
-                    QUESTIONS_PATH = "games\\cesidle\\theme2"
-                    theme2_button = pygame.Rect(theme2_button_pos)
-                    questions = load_questions()
-                if theme3_button.collidepoint(event.pos):                
-                    pygame.display.set_caption("Cesidle theme3")
-                    QUESTIONS_PATH = "games\\cesidle\\theme3"
-                    theme3_button = pygame.Rect(theme3_button_pos)
-                    questions = load_questions()
-                if theme4_button.collidepoint(event.pos):                
-                    pygame.display.set_caption("Cesidle theme4")
-                    QUESTIONS_PATH = "games\\cesidle\\theme4"
-                    theme4_button = pygame.Rect(theme4_button_pos)
-                    questions = load_questions()
-                if theme5_button.collidepoint(event.pos):                
-                    pygame.display.set_caption("Cesidle theme5")
-                    QUESTIONS_PATH = "games\\cesidle\\theme5"
-                    theme5_button = pygame.Rect(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - button_vertical_sepraration/2, 200, 50)
-                    questions = load_questions() 
-                    
-            pygame.display.flip()
+    QUESTIONS_PATH = DEFAULT_PATH+"\\"+QUESTIONS_PATH_LIST[index]
+    questions = load_questions()
 
 
-    question = random_questions(questions)
+    question = random_questions(questions, "")
 
     HIGH_SCORE = high_score_saver.get_score(pygame.display.get_caption()[0])
 
@@ -245,6 +170,11 @@ def Cesidle():
                         lives = 0
                         questions.remove(question)
                         guess = True
+                        # check if there is a postanwser image
+                        if os.path.isfile(os.path.join(QUESTIONS_PATH, question+"_postanwser.png")):
+                            show_image(os.path.join(QUESTIONS_PATH, question+"_postanwser.png"))
+                            pygame.display.flip()
+                            pygame.time.wait(5000)
                     else:
                         guess = False
                         lives = -1
@@ -254,18 +184,23 @@ def Cesidle():
                     user_text = []
                     prev_country = question
                     if len(questions) == 0:
-                        screen.fill(GREY)
-                        screen.blit(big_font.render(f"You Win !", True, (100, 255, 100), (0, 0, 0)), (SCREEN_WIDTH/2-375, SCREEN_HEIGHT/2 - 100))
-                        high_score_saver.save_score(HIGH_SCORE, pygame.display.get_caption()[0])
-                        pygame.display.flip()
-                        pygame.time.wait(1000)
-                        # restart the game
-                        LIVES = 5
-                        SCORE = 0
+                        if index < len(QUESTIONS_PATH_LIST)-1:
+                            LIVES += 1
+                            index += 1
+                            QUESTIONS_PATH = DEFAULT_PATH+"\\"+QUESTIONS_PATH_LIST[index]
+                            show_current_mode(index)
+                        else:
+                            screen.fill(GREY)
+                            screen.blit(big_font.render(f"You Win !", True, (100, 255, 100), (0, 0, 0)), (SCREEN_WIDTH/2-375, SCREEN_HEIGHT/2 - 100))
+                            high_score_saver.save_score(HIGH_SCORE, pygame.display.get_caption()[0])
+                            pygame.display.flip()
+                            pygame.time.wait(1000)
+                            # restart the game
+                            return_to_laucher()
                         questions = load_questions()
                         guess = None
                         
-                    question = random_questions(questions)
+                    question = random_questions(questions, question)
                     active = False
 
                 # Unicode standard is used for string 
@@ -277,6 +212,7 @@ def Cesidle():
         if LIVES <= 0:
             # display game over on the center of the screen
             screen.blit(big_font.render("Game over !", True, (255, 100, 100), (0, 0, 0)), (SCREEN_WIDTH/2 - 300, SCREEN_HEIGHT/2 - 100))
+            show_image(SKILL_ISSUE)
             pygame.display.flip()
             pygame.time.wait(1000)
             # restart the game
@@ -297,18 +233,9 @@ def Cesidle():
                 
         final_text = ''.join(user_text)
 
-        question_img = pygame.image.load(os.path.join(QUESTIONS_PATH, question+".png")).convert()
-        
-        question_width = question_img.get_width()
-        question_height = question_img.get_height()
-        # rezise the country to fit in the screen, without changing the aspect ratio
-        if question_width > SCREEN_WIDTH:
-            question_img = pygame.transform.scale(question_img, (SCREEN_WIDTH, int(question_height*SCREEN_WIDTH/question_width)))
-        if question_height > SCREEN_HEIGHT:
-            question_img = pygame.transform.scale(question_img, (int(question_width*SCREEN_HEIGHT/question_height), SCREEN_HEIGHT))
 
-        screen.blit(question_img, (SCREEN_WIDTH/2 - question_img.get_width()/2, SCREEN_HEIGHT/2 - question_img.get_height()/2))
-
+        #show image
+        show_image(os.path.join(QUESTIONS_PATH, question+".png"))
 
 
         if lives == -1:
@@ -346,7 +273,7 @@ def Cesidle():
             if guess:
                 guezz_text = base_font.render("Good guezz !", True, (100, 255, 100))
             else:
-                guezz_text = base_font.render(f"Wrong guezz, it was {prev_country}", True, (255, 100, 100))
+                guezz_text = base_font.render(f"Wrong guezz", True, (255, 100, 100))
             # rectangle width and height adjjust for text size
             guezz_rect = pygame.Rect(GUESS_POS[0], GUESS_POS[1], guezz_text.get_width()+border_radius, guezz_text.get_height()+border_radius)
             pygame.draw.rect(screen, (50,50,50), guezz_rect, border_radius=border_radius)
@@ -379,4 +306,8 @@ def Cesidle():
         # 60 frames should be passed. 
         clock.tick(60)
 
-Cesidle()
+try:
+    Cesidle()
+except Exception as e:
+    print(e)
+    return_to_laucher()
