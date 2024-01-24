@@ -219,7 +219,7 @@ def Cesidle():
             pygame.display.flip()
             pygame.time.wait(1000)
             # restart the game
-            LIVES = 5
+            LIVES = len(QUESTIONS_PATH_LIST)
             SCORE = 0
             questions = load_questions()
             guess = None
